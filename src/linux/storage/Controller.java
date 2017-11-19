@@ -13,19 +13,22 @@ public class Controller implements Dev {
 	private ArrayList<Disk> disks;
 	private int cacheSize;
 	
-	public Controller(){
-		setChipModel("");
-		setVendor("");
-		setSpeed(6);
-	}
-	
-	public Controller(String chipModel, String vendor){
+	public Controller(String chipModel){
 		this.setChipModel(chipModel);
 		this.setVendor(vendor);
 	}
 	
 	public void fillAttr(){
-		
+		switch(chipModel){
+		case "3008":
+			setVendor("lsi");
+			setCacheSize(0);
+			setSpeed(12);
+			setHasBBU(false);
+			break;
+		default:
+			break;
+		}
 	}
 
 	public String getVendor() {
