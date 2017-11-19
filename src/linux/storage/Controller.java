@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import linux.storage.instrument.Dev;
 
 public class Controller implements Dev {
-	private String chipModel;
+	private ChipModel chipModel;
 	private String vendor;
 	private int speed;
 	private String fw;
@@ -13,19 +13,49 @@ public class Controller implements Dev {
 	private ArrayList<Disk> disks;
 	private int cacheSize;
 	
-	public Controller(String chipModel){
+	public Controller(ChipModel chipModel){
 		this.setChipModel(chipModel);
 		this.setVendor(vendor);
 	}
 	
 	public void fillAttr(){
+		fillChipAttr();
+	}
+	
+	private void fillChipAttr(){
 		switch(chipModel){
-		case "3008":
+		case SAS3008:
 			setVendor("lsi");
 			setCacheSize(0);
 			setSpeed(12);
 			setHasBBU(false);
 			break;
+		case SAS2308:
+		case SAS2008:
+			setVendor("lsi");
+			setCacheSize(0);
+			setSpeed(6);
+			setHasBBU(false);
+			break;
+		case LSI2108:
+			setVendor("lsi");
+			setCacheSize(512);
+			setSpeed(6);
+			break;
+		case LSI3108:
+			setVendor("lsi");
+			setSpeed(12);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void scanDisk(){
+		switch (chipModel) {
+		case SAS3008:
+			break;
+
 		default:
 			break;
 		}
@@ -39,11 +69,11 @@ public class Controller implements Dev {
 		this.vendor = vendor;
 	}
 
-	public String getChipModel() {
+	public ChipModel getChipModel() {
 		return chipModel;
 	}
 
-	public void setChipModel(String chipModel) {
+	public void setChipModel(ChipModel chipModel) {
 		this.chipModel = chipModel;
 	}
 

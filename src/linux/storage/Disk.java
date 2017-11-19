@@ -19,7 +19,7 @@ public class Disk implements Dev {
 	private String sn;
 	private Interface interfaces;
 	private String devName;
-	private String fromChip;
+	private ChipModel fromChip;
 	private String smartStr;
 	private Map<String, Map<String, String>> smart_map = null;
 	private String smartAll;
@@ -29,7 +29,7 @@ public class Disk implements Dev {
 	 * @param from_chip 连接名字为dev_name的控制芯片型号
 	 * @param dev_name 磁盘名称，例如sda
 	 */
-	public Disk(String from_chip, String dev_name){
+	public Disk(ChipModel from_chip, String dev_name){
 		model = fw = sn = "";
 		smartStr = "smartctl -a";
 		if(!dev_name.matches("sd[a-z]*")){
@@ -38,16 +38,7 @@ public class Disk implements Dev {
 		}else{
 			devName = dev_name;
 		}
-		if(from_chip.matches(".*3008.*")){
-			fromChip = "3008";
-		}else if(from_chip.matches(".*2008.*")){
-			fromChip = "2008";
-		}else if(from_chip.matches(".*2308.*")){
-			fromChip = "2308";
-		}else{
-			fromChip = "";
-			throw new InputException("Disk.this(from_chip, dev_name): SAS Chip is not support!");
-		}
+		setFromChip(from_chip);
 	}
 	
 	/**
@@ -218,8 +209,12 @@ public class Disk implements Dev {
 	 * 获取磁盘连接的控制器芯片型号
 	 * @return
 	 */
-	public String getFromChip() {
+	public ChipModel getFromChip() {
 		return fromChip;
+	}
+
+	public void setFromChip(ChipModel fromChip) {
+		this.fromChip = fromChip;
 	}
 
 	/**
