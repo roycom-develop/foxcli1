@@ -1,6 +1,8 @@
 package linux;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class Common {
 	/**
-	 * searchRegexString 在目标字符串中按行搜索子串后，分割取其中一列。
+	 * searchRegexString static函数，在目标字符串中按行搜索子串后，分割取其中一列。
 	 * @param srcStr 待查找字符串
 	 * @param regexStr 正则字符串
 	 * @param splitString 分割字符子串，一般是使用" *"来分割多个空格
@@ -30,7 +32,65 @@ public class Common {
 	}
 	
 	/**
-	 * exeShell 运行shell命令，返回执行结果
+	 * static函数，读文件
+	 * @param path 文件路径
+	 * @return 返回字符串结果
+	 * @throws Exception
+	 */
+	public static String readFileByChar(String path) throws Exception{
+		String buf = null;
+		byte[] data = null;
+		File file = new File(path);
+		InputStream in = null;
+		try{
+		in = new FileInputStream(file);
+		data = new byte[1024];
+		in.read(data);
+		}catch(Exception e){
+			throw e;
+		}finally {
+			in.close();
+		}
+		buf = new String(data);
+		return buf;
+	}
+	
+	/**
+	 * static函数，遍历根文件夹所有文件
+	 * @param path 文件夹路径
+	 * @return 返回ArrayList类型根文件夹内任所有文件
+	 */
+	public static ArrayList<String> listDirAllFiles(String path) throws Exception{
+		ArrayList<String> fileList = new ArrayList<String>();
+		File[] files = new File(path).listFiles();
+		for(File f: files){
+			fileList.add(f.getName());
+		}
+		return fileList;
+	}
+	
+	/**
+	 * static函数，遍历根文件夹除目录外的所有文件
+	 * @param path 文件夹路径
+	 * @return 返回ArrayList类型根文件夹内任所有非目录文件
+	 * @throws Exception
+	 */
+	public static ArrayList<String> listDirNomalFiles(String path) throws Exception{
+		ArrayList<String> fileList = new ArrayList<String>();
+		File[] files = new File(path).listFiles();
+		for(File f: files){
+			if(f.isDirectory())
+				fileList.add(f.getName());
+		}
+		return fileList;
+	}
+	
+	public static String pathJoin(String path, String nameStr){
+		return String.format("%s%s%s", path, java.io.File.separator, nameStr);
+	}
+	
+	/**
+	 * exeShell static函数，运行shell命令，返回执行结果
 	 * @param cmd shell命名字符串
 	 * @return 返回执行结果
 	 * @throws IOException 可能出现的IO异常
@@ -87,3 +147,6 @@ public class Common {
         }
 	}
 }
+
+
+

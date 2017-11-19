@@ -13,6 +13,17 @@ import linux.Common;
 import linux.storage.instrument.Dev;
 import linux.storage.instrument.InputException;
 
+
+/**
+ * 磁盘接口类型
+ * @author Stevy
+ *
+ */
+enum Interface {
+	SATA, SAS, NVMe
+}
+
+
 public class Disk implements Dev {
 	private String model;
 	private String fw;

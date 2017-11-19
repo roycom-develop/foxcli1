@@ -4,6 +4,16 @@ import java.util.ArrayList;
 
 import linux.storage.instrument.Dev;
 
+/**
+ * HBA芯片类型
+ * @author Stevy
+ *
+ */
+enum ChipModel {
+	SAS3008, SAS2008, SAS2308, LSI2108, LSI3108
+}
+
+
 public class Controller implements Dev {
 	private ChipModel chipModel;
 	private String vendor;
@@ -18,10 +28,16 @@ public class Controller implements Dev {
 		this.setVendor(vendor);
 	}
 	
+	/**
+	 * 填充所有成员变量值
+	 */
 	public void fillAttr(){
 		fillChipAttr();
 	}
 	
+	/**
+	 * 填充SAS芯片相关成员变量值
+	 */
 	private void fillChipAttr(){
 		switch(chipModel){
 		case SAS3008:
