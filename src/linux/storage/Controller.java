@@ -55,7 +55,12 @@ public class Controller implements Dev {
 		switch (chipModel) {
 		case SAS3008:
 			break;
-
+		case SAS2308:
+		case SAS2008:
+			break;
+		case LSI3108:
+		case LSI2108:
+			break;
 		default:
 			break;
 		}
